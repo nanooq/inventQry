@@ -1,0 +1,6 @@
+.thing_form input, .person_form input, .usage_rule_form input {
+  display: block;
+  margin-bottom: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}

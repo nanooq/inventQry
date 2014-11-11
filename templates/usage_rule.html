@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if modify %}
+  <form method="POST" action="{{ request.path }}?id={{ usage_rule.id }}" class="usage_rule_form">
+    <label for="rule">Rule</label>
+    <input name="rule" type="text" size="40" value="{{ usage_rule.rule }}">
+    <input name="id" type="hidden" value="{{ usage_rule.id }}">
+    <input type="submit" value="Modify usage rule">
+  </form>
+{% else %}
+  <form method="POST" action="{{ request.path }}" class="usage_rule_form">
+    <label for="rule">Rule</label>
+    <input name="rule" type="text" size="40">
+    <input name="id" type="hidden" value="new_id">
+    <input type="submit" value="Add usage rule">
+  </form>
+{% endif %}
+{% if request.method == "POST" %}
+  {% if modify %}
+    <p class="message">Usage rule has been modified.</p>
+  {% else %}
+    <p class="message">Usage rule has been added.</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if modify %}
+  <form method="POST" action="{{ request.path }}?id={{ person.id }}" class="person_form">
+    <label for="pseudonym">Pseudonym</label>
+    <input name="pseudonym" type="text" size="40" value="{{ person.pseudonym }}">
+    <label for="email">E-Mail</label>
+    <input name="email" type="text" size="40" value="{{ person.email }}">
+    <input name="id" type="hidden" value="{{ person.id }}">
+    <input type="submit" value="Modify person">
+  </form>
+{% else %}
+  <form method="POST" action="{{ request.path }}" class="person_form">
+    <label for="pseudonym">Pseudonym</label>
+    <input name="pseudonym" type="text" size="40">
+    <label for="email">E-Mail</label>
+    <input name="email" type="text" size="40">
+    <input name="id" type="hidden" value="new_id">
+    <input type="submit" value="Add person">
+  </form>
+{% endif %}
+{% if request.method == "POST" %}
+  {% if modify %}
+    <p class="message">Person has been modified.</p>
+  {% else %}
+    <p class="message">Person has been added.</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

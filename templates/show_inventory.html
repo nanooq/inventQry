@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class=inventory>
+  {% for thing in inventory %}
+    <li><h2>{{ thing.url }}</h2>{{ thing.owner }}, {{ thing.contact}}, {{ thing.usage_rule }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
