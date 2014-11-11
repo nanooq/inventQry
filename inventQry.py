@@ -31,7 +31,7 @@ class Storage:
 
         cursor.close()
 
-    def __del__(self): 
+    def __del__(self):
         self.db_conn.close()
 
     def write(self, query, values = None):
@@ -130,7 +130,15 @@ def hello():
 @app.route("/show_inventory")
 def show_inventory():
     c = storage.read('SELECT * FROM things ORDER BY id DESC;')
-    inventory = [dict(id=row[0], owner=row[1], contact=row[2], usage_rule=row[2], url=row[3]) for row in c.fetchall()]
+    inventory = []
+    for row in c.fetchall():
+        thing = dict(id=row[0],
+                     name=row[1],
+                     owner=db_get_person_by_id(row[2]),
+                     contact=db_get_person_by_id(row[3]),
+                     usage_rule=db_get_usage_rule_by_id(row[4]),
+                     url=row[5])
+        inventory.append(thing)
 
     return render_template("show_inventory.html", inventory=inventory)
 
