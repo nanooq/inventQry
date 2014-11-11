@@ -4,7 +4,7 @@ import sqlite3
 
 class Storage:
     def __init__(self):
-        self.data_file = "inventory.db"
+        self.data_file = "inventQry.db"
         self.db_conn = sqlite3.connect(self.data_file, check_same_thread=False)
         cursor = self.db_conn.cursor()
 
@@ -129,7 +129,7 @@ def hello():
 
 @app.route("/show_inventory")
 def show_inventory():
-    c = storage.read('SELECT * FROM inventory ORDER BY id DESC;')
+    c = storage.read('SELECT * FROM things ORDER BY id DESC;')
     inventory = [dict(id=row[0], owner=row[1], contact=row[2], usage_rule=row[2], url=row[3]) for row in c.fetchall()]
 
     return render_template("show_inventory.html", inventory=inventory)
