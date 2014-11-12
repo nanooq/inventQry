@@ -1,6 +1,45 @@
+@import url("OpenSans.css");
+
+html, body {
+  background-color: #efefef;
+  font-family: Open Sans;
+  margin: 0em;
+  padding: 0em;
+}
+
+h1 {
+  padding: 0em;
+  margin: 0em;
+}
+
+a {
+  color: black;
+}
+
 .thing_form input, .person_form input, .usage_rule_form input {
   display: block;
   margin-bottom: 1em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+}
+
+ul.inventory {
+  list-style: none;
+  padding: 0em;
+  margin: 0em;
+}
+
+ul.thing_attribs {
+  list-style: none;
+}
+
+ul.thing_attribs li {
+/*  flex-grow: 1;*/
+}
+
+li.thing {
+  background-color: #aaffdd;
+  /*display: flex;*/
+  margin: 1em;
+  background-color: #efefef;
 }
