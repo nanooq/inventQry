@@ -49,12 +49,12 @@ class InventQryLabel(object):
 
         # create strings and place in the middle
         # TODO use data
-        im.paste(self.mktext("Harry Plotter", "./harry.ttf", 50), (self.h, 0))
-        im.paste(self.mktext("Besitzer: retep", "./Ubuntu-L.ttf", 30), (self.h, self.h//3))
-        im.paste(self.mktext("ID: 1a2b", "./Ubuntu-L.ttf", 30), (self.h, self.h//3*2))
+        im.paste(self.mktext("Harry Plotter", "./static/font/harry.ttf", 50), (self.h, 0))
+        im.paste(self.mktext("Besitzer: retep", "./static/font/Ubuntu-L.ttf", 30), (self.h, self.h//3))
+        im.paste(self.mktext("ID: 1a2b", "./static/font/Ubuntu-L.ttf", 30), (self.h, self.h//3*2))
 
         # place logo on lower-right corner
-        logo = Image.open("logo.png").convert("1").resize((self.h//2, self.h//2))
+        logo = Image.open("./static/img/logo.png").convert("1").resize((self.h//2, self.h//2))
         im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
 
         # output needs to be W < H, so rotate
@@ -65,6 +65,7 @@ class InventQryLabel(object):
 
     def print(self, image):
         image.save("out.png")
+        image.save("out.pbm")
 
 if __name__ == "__main__":
     inventQryLabel = InventQryLabel((514, 196))
