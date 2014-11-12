@@ -122,7 +122,7 @@ def do_print (filename):
 
 
 if __name__=='__main__':
-   read_labelinfos ("lw450.ppd")
+   read_labelinfos ("static/ppd/lw450.ppd")
    set_labelinfo ("11355")
 
    do_print (sys.argv[1])

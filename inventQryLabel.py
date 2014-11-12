@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
+from subprocess import call
 
 class InventQryLabel(object):
     def __init__(self, label_size):
@@ -58,14 +60,16 @@ class InventQryLabel(object):
         im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
 
         # output needs to be W < H, so rotate
-        #final = im.rotate(90)
-        final = im
+        final = im.rotate(90)
+        #final = im
 
         return final
 
     def print(self, image):
         image.save("out.png")
         image.save("out.pbm")
+
+        call([ "bash", "print" ])
 
 if __name__ == "__main__":
     inventQryLabel = InventQryLabel((514, 196))
