@@ -4,19 +4,15 @@
   {% for thing in inventory %}
   <li class="thing">
     <a href="{{ thing.url }}">
-      <h2>
-        {{ thing.name }}
-      </h2>
+      <h2>{{ thing.name }}</h2>
     </a>
-    <h3>
-    </h3>
     <ul class="thing_attribs">
       <li class="owner">
         <h4>
           Owner:
         </h4>
         <a href="modify_person?id={{ thing.owner.id }}">
-          {{ thing.owner.pseudonym }} - {{ thing.owner.email }}
+          {{ thing.owner.pseudonym }}
          </a>
       </li>
       <li class="contact">
@@ -24,7 +20,7 @@
           Contact:
         </h4>
         <a href="modify_person?id={{ thing.contact.id }}">
-          {{ thing.contact.pseudonym}}
+          {{ thing.contact.email}}
         </a>
       </li>
       <li class="rule">
@@ -36,6 +32,10 @@
         </a>
       </li>
     </ul>
+    <form method="POST" action="print_label?id={{ thing.id }}" class="print_form">
+    <input name="id" type="hidden" value="{{ thing.id }}">
+    <input type="submit" value="Print label">
+  </form>
   </li>
   {% else %}
   <li>
