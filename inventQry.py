@@ -2,6 +2,8 @@
 from flask import *
 import sqlite3
 
+from inventQryLabel import *
+
 class Storage:
     def __init__(self):
         self.data_file = "inventQry.db"
@@ -127,7 +129,7 @@ def db_modify_usage_rule(id, rule):
 def hello():
     return show_inventory()
 
-@app.route("/show_inventory")
+@app.route("/show_inventory", methods=["GET", "POST"])
 def show_inventory():
     c = storage.read('SELECT * FROM things ORDER BY id DESC;')
     inventory = []
@@ -139,6 +141,18 @@ def show_inventory():
                      usage_rule=db_get_usage_rule_by_id(row[4]),
                      url=row[5])
         inventory.append(thing)
+
+    if request.method == "POST":
+        id = request.form["id"]
+
+        thing = db_get_thing_by_id(id)
+        owner = db_get_person_by_id(thing["owner"])
+        contact = db_get_person_by_id(thing["contact"])
+        usage_rule = db_get_usage_rule_by_id(thing["usage_rule"])
+
+        inventQryLabel = InventQryLabel((514, 196))
+        label = inventQryLabel.generate("1a2b")
+        inventQryLabel.print(label)
 
     return render_template("show_inventory.html", inventory=inventory)
 

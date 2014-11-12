@@ -32,10 +32,10 @@
         </a>
       </li>
     </ul>
-    <form method="POST" action="print_label?id={{ thing.id }}" class="print_form">
-    <input name="id" type="hidden" value="{{ thing.id }}">
-    <input type="submit" value="Print label">
-  </form>
+    <form method="POST" action="show_inventory" class="print_form">
+      <input name="id" type="hidden" value="{{ thing.id }}">
+      <input type="submit" value="Print label">
+    </form>
   </li>
   {% else %}
   <li>
