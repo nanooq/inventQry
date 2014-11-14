@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from flask import *
 import sqlite3
+import uuid
+
 
 from inventQryLabel import *
 
@@ -16,7 +18,9 @@ class Storage:
                               owner      INTEGER       KEY NOT NULL,
                               contact    INTEGER       KEY NOT NULL,
                               usage_rule INTEGER       KEY NOT NULL,
+                              uid        VARCHAR(36),
                               url        VARCHAR(1024)
+
                           );"""
         persons_table = """CREATE TABLE IF NOT EXISTS persons (
                                id        INTEGER       PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +68,13 @@ storage = Storage()
 # get
 def db_get_things():
     c = storage.read("SELECT * FROM things ORDER BY id DESC;")
-    things = [dict(id=row[0], owner=row[1], contact=row[2], usage_rule=row[2], url=row[3]) for row in c.fetchall()]
+    things = [dict( id=row[0],
+                    name=row[1],
+                    owner=row[2],
+                    contact=row[3],
+                    usage_rule=row[4],
+                    uid=row[5],
+                    url=row[6]) for row in c.fetchall()]
 
     return things
 
@@ -83,7 +93,13 @@ def db_get_usage_rules():
 # get by id
 def db_get_thing_by_id(id):
     c = storage.read("SELECT * FROM things WHERE id=?;", [id])
-    things = [dict(id=row[0], name=row[1], owner=row[2], contact=row[3], usage_rule=row[4], url=row[5]) for row in c.fetchall()]
+    things = [dict( id=row[0],
+                    name=row[1],
+                    owner=row[2],
+                    contact=row[3],
+                    usage_rule=row[4],
+                    uid=row[5],
+                    url=row[6]) for row in c.fetchall()]
 
     return things[0] if len(things) > 0 else None
 
@@ -101,7 +117,11 @@ def db_get_usage_rule_by_id(id):
 
 # add
 def db_add_thing(name, owner, contact, usage_rule, url):
-    c = storage.write("INSERT INTO things (name, owner, contact, usage_rule, url) VALUES (?, ?, ?, ?, ?);", [name, owner, contact, usage_rule, url])
+    uid = str(uuid.uuid4())
+    c = storage.write("""INSERT INTO things
+                         (name, owner, contact, usage_rule, uid, url)
+                         VALUES (?, ?, ?, ?, ?, ?);""",
+                         [name, owner, contact, usage_rule, uid, url])
 
 def db_add_person(pseudonym, email):
     # TODO prevent sql injections
@@ -139,19 +159,22 @@ def show_inventory():
                      owner=db_get_person_by_id(row[2]),
                      contact=db_get_person_by_id(row[3]),
                      usage_rule=db_get_usage_rule_by_id(row[4]),
-                     url=row[5])
+                     uid=row[5],
+                     url=row[6])
         inventory.append(thing)
 
     if request.method == "POST":
         id = request.form["id"]
 
         thing = db_get_thing_by_id(id)
-        owner = db_get_person_by_id(thing["owner"])
-        contact = db_get_person_by_id(thing["contact"])
-        usage_rule = db_get_usage_rule_by_id(thing["usage_rule"])
+        name = thing["name"]
+        owner = db_get_person_by_id(thing["owner"])["pseudonym"]
+        contact = db_get_person_by_id(thing["contact"])["email"]
+        usage_rule = db_get_usage_rule_by_id(thing["usage_rule"])["rule"]
+        uid = thing["uid"][:6]
 
         inventQryLabel = InventQryLabel((514, 196))
-        label = inventQryLabel.generate("1a2b")
+        label = inventQryLabel.generate(name, owner, contact, usage_rule, uid)
         inventQryLabel.print(label)
 
     return render_template("show_inventory.html", inventory=inventory)
@@ -165,7 +188,12 @@ def thing():
 
     if request.path[1:len("modify_thing") + 1] == "modify_thing":
         if request.method == "POST":
-            db_modify_thing(request.form["id"], request.form["name"], request.form["owner"], request.form["contact"], request.form["usage_rule"], request.form["url"])
+            db_modify_thing(request.form["id"],
+                            request.form["name"],
+                            request.form["owner"],
+                            request.form["contact"],
+                            request.form["usage_rule"],
+                            request.form["url"])
 
         id = request.args.get("id")
 
@@ -180,7 +208,11 @@ def thing():
         return render_template("thing.html", modify=True, inventory=inventory, persons=persons, usage_rules=usage_rules, thing=thing)
     else:
         if request.method == "POST":
-            db_add_thing(request.form["name"], request.form["owner"], request.form["contact"], request.form["usage_rule"], request.form["url"])
+            db_add_thing(request.form["name"],
+                         request.form["owner"],
+                         request.form["contact"],
+                         request.form["usage_rule"],
+                         request.form["url"])
 
         return render_template("thing.html", modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
 

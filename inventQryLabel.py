@@ -66,7 +66,6 @@ class InventQryLabel(object):
         return final
 
     def print(self, image):
-        image.save("out.png")
         image.save("out.pbm")
 
         call([ "bash", "print" ])

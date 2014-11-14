@@ -4,7 +4,8 @@
   {% for thing in inventory %}
   <li class="thing">
     <a href="{{ thing.url }}">
-      <h2>{{ thing.name }}</h2>
+        <h2>{{ thing.name }}</h2>
+        <h3>{{ thing.uid }}</h3>
     </a>
     <ul class="thing_attribs">
       <li class="owner">
