@@ -3,6 +3,8 @@ import qrcode
 from PIL import Image, ImageDraw, ImageFont
 from subprocess import call
 
+base_url = "http://hasi.it/i/"
+
 class InventQryLabel(object):
     def __init__(self, label_size):
         self.w = w = label_size[0]
@@ -10,8 +12,6 @@ class InventQryLabel(object):
 
         self.qr_size = (h, h)
         self.text_size = (w - h, h)
-
-        self.url = "http://atlas.hasi/"
 
     def mktext(self, string, font, fontsize):
         text = Image.new("1", self.text_size, color = 1)
@@ -31,7 +31,7 @@ class InventQryLabel(object):
             border=2, # apparently the standard requires 4...
         )
 
-        qr.add_data(self.url)
+        qr.add_data(base_url)
         qr.add_data(id)
         qr.make(fit=True)
 
@@ -39,36 +39,41 @@ class InventQryLabel(object):
 
         return code
 
-    def generate(self, id):
-        # TODO get data for id
-
+    def generate(self, name, owner, contact, usage_rule, uid):
         # create binary (black/white) image
         im = Image.new("1", (self.w, self.h), color=1)
 
-        code = self.gen_qrcode(id)
-        # place code on upper-left corner
-        im.paste(code, (0, 0))
+        code = self.gen_qrcode(uid)
 
-        # create strings and place in the middle
-        # TODO use data
-        im.paste(self.mktext("Harry Plotter", "./static/font/harry.ttf", 50), (self.h, 0))
-        im.paste(self.mktext("Besitzer: retep", "./static/font/Ubuntu-L.ttf", 30), (self.h, self.h//3))
-        im.paste(self.mktext("ID: 1a2b", "./static/font/Ubuntu-L.ttf", 30), (self.h, self.h//3*2))
+        # create font images
+        name_txt = None
+        if name == "Harry Plotter":
+            name_txt = self.mktext(name, "./static/font/harry.ttf", 50)
+        else:
+            name_txt = self.mktext(name, "./static/font/Ubuntu-L.ttf", 43)
+        owner_txt = self.mktext("Owner: {}".format(owner), "./static/font/Ubuntu-L.ttf", 30)
+        contact_txt = self.mktext("Contact: {}".format(contact), "./static/font/Ubuntu-L.ttf", 30)
+        permissions_txt = self.mktext("Permissions: {}".format(usage_rule), "./static/font/Ubuntu-L.ttf", 30)
 
-        # place logo on lower-right corner
-        logo = Image.open("./static/img/logo.png").convert("1").resize((self.h//2, self.h//2))
-        im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
+        #logo = Image.open("./static/img/logo.png").convert("1").resize((self.h//2, self.h//2))
+
+        # place image parts
+        im.paste(code, (self.w-self.h, 0))
+        im.paste(name_txt, (10, 5))
+        im.paste(owner_txt, (10, self.h - 120))
+        im.paste(contact_txt, (10, self.h - 80))
+        im.paste(permissions_txt, (10, self.h - 40))
+        #im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
 
         # output needs to be W < H, so rotate
-        final = im.rotate(90)
-        #final = im
+        #final = im.rotate(90)
+        final = im
 
         return final
 
     def print(self, image):
         image.save("out.pbm")
-
-        call([ "bash", "print" ])
+        #call([ "bash", "print" ])
 
 if __name__ == "__main__":
     inventQryLabel = InventQryLabel((514, 196))
