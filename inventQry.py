@@ -180,89 +180,93 @@ def show_inventory():
     return render_template("show_inventory.html", inventory=inventory)
 
 @app.route("/add_thing", methods=["GET", "POST"])
+def add_thing():
+    inventory = db_get_things()
+    persons = db_get_persons()
+    usage_rules = db_get_usage_rules()
+
+    if request.method == "POST":
+        db_add_thing(request.form["name"],
+                     request.form["owner"],
+                     request.form["contact"],
+                     request.form["usage_rule"],
+                     request.form["url"])
+
+    return render_template("thing.html", modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
+
 @app.route("/modify_thing", methods=["GET", "POST"])
 def thing():
     inventory = db_get_things()
     persons = db_get_persons()
     usage_rules = db_get_usage_rules()
 
-    if request.path[1:len("modify_thing") + 1] == "modify_thing":
-        if request.method == "POST":
-            db_modify_thing(request.form["id"],
-                            request.form["name"],
-                            request.form["owner"],
-                            request.form["contact"],
-                            request.form["usage_rule"],
-                            request.form["url"])
+    if request.method == "POST":
+        db_modify_thing(request.form["id"],
+                        request.form["name"],
+                        request.form["owner"],
+                        request.form["contact"],
+                        request.form["usage_rule"],
+                        request.form["url"])
 
-        id = request.args.get("id")
+    id = request.args.get("id")
 
-        if id == None:
-            return render_template("error.html")
+    if id == None:
+        return render_template("error.html")
 
-        thing = db_get_thing_by_id(int(id))
+    thing = db_get_thing_by_id(int(id))
 
-        if thing == None:
-            return render_template("error.html")
+    if thing == None:
+        return render_template("error.html")
 
-        return render_template("thing.html", modify=True, inventory=inventory, persons=persons, usage_rules=usage_rules, thing=thing)
-    else:
-        if request.method == "POST":
-            db_add_thing(request.form["name"],
-                         request.form["owner"],
-                         request.form["contact"],
-                         request.form["usage_rule"],
-                         request.form["url"])
-
-        return render_template("thing.html", modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
+    return render_template("thing.html", modify=True, inventory=inventory, persons=persons, usage_rules=usage_rules, thing=thing)
 
 @app.route("/add_person", methods=["GET", "POST"])
+def add_person():
+    if request.method == "POST":
+        db_add_person(request.form["pseudonym"], request.form["email"])
+
+    return render_template("person.html", modify=False)
+
 @app.route("/modify_person", methods=["GET", "POST"])
-def person():
-    if request.path[1:len("modify_person") + 1] == "modify_person":
-        if request.method == "POST":
-            db_modify_person(request.form["id"], request.form["pseudonym"], request.form["email"])
+def modify_person():
+    if request.method == "POST":
+        db_modify_person(request.form["id"], request.form["pseudonym"], request.form["email"])
 
-        id = request.args.get("id")
+    id = request.args.get("id")
 
-        if id == None:
-            return render_template("error.html")
+    if id == None:
+        return render_template("error.html")
 
-        person = db_get_person_by_id(int(id))
+    person = db_get_person_by_id(int(id))
 
-        if person == None:
-            return render_template("error.html")
+    if person == None:
+        return render_template("error.html")
 
-        return render_template("person.html", modify=True, person=person)
-    else:
-        if request.method == "POST":
-            db_add_person(request.form["pseudonym"], request.form["email"])
-
-        return render_template("person.html", modify=False)
+    return render_template("person.html", modify=True, person=person)
 
 @app.route("/add_usage_rule", methods=["GET", "POST"])
+def add_usage_rule():
+    if request.method == "POST":
+        db_add_usage_rule(request.form["rule"])
+
+    return render_template("usage_rule.html", modify=False)
+
 @app.route("/modify_usage_rule", methods=["GET", "POST"])
-def usage_rule():
-    if request.path[1:len("modify_usage_rule") + 1] == "modify_usage_rule":
-        if request.method == "POST":
-            db_modify_usage_rule(request.form["id"], request.form["rule"])
+def modify_usage_rule():
+    if request.method == "POST":
+        db_modify_usage_rule(request.form["id"], request.form["rule"])
 
-        id = request.args.get("id")
+    id = request.args.get("id")
 
-        if id == None:
-            return render_template("error.html")
+    if id == None:
+        return render_template("error.html")
 
-        usage_rule = db_get_usage_rule_by_id(int(id))
+    usage_rule = db_get_usage_rule_by_id(int(id))
 
-        if usage_rule == None:
-            return render_template("error.html")
+    if usage_rule == None:
+        return render_template("error.html")
 
-        return render_template("usage_rule.html", modify=True, usage_rule=usage_rule)
-    else:
-        if request.method == "POST":
-            db_add_usage_rule(request.form["rule"])
-
-        return render_template("usage_rule.html", modify=False)
+    return render_template("usage_rule.html", modify=True, usage_rule=usage_rule)
 
 if  __name__ == "__main__":
     app.run(debug=True)
