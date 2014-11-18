@@ -1,45 +1,165 @@
 @import url("OpenSans.css");
+@import url("BigNoodle.css");
 
-html, body {
-  background-color: #efefef;
-  font-family: Open Sans;
-  margin: 0em;
-  padding: 0em;
+html, body, h1, h2, h3, a {
+    background-color: black;
+    color: #00FF00;
+    font-family: 'Open Sans';
+    margin: 0pt;
+    padding: 0pt;
+    text-decoration: none;
 }
 
-h1 {
-  padding: 0em;
-  margin: 0em;
+.header {
+    list-style: none;
+    margin: 0pt;
+    text-align: center;
+    background-color: #00FF00;
+    color: black;
+    padding-bottom: 30pt;
+    padding-top: 30pt;
 }
 
-a {
-  color: black;
+.header nav ul {
+    margin: 0pt;
+    padding: 0pt;
 }
 
+.header nav ul li {
+    border: 4pt solid black;
+    display: inline-block;
+    margin: 4pt;
+    padding: 0pt;
+}
+
+.header nav ul li a {
+    background-color: #00FF00;
+    color: black;
+    display: block;
+    font-family: 'BigNoodleTitling';
+    font-size: 30pt;
+    padding: 5pt;
+    text-align: center;
+    text-decoration: none;
+}
+
+.header nav ul li a:hover {
+    background-color: black;
+    color: #00FF00;
+}
+
+.header h1 {
+    background-color: #00FF00;
+    color: black;
+    font-family: 'BigNoodleTitling';
+    font-size: 50pt;
+    letter-spacing: 20pt;
+    padding: 10pt;
+    text-align: center;
+}
+
+.inventory {
+    padding: 0pt;
+    margin: 0pt;
+    padding-top: 30pt;
+    width: 100%;
+}
+
+.inventory .button {
+    text-align: center;
+}
+
+.inventory .button a {
+    background-color: black;
+    color: #00FF00;
+    display: inline-block;
+    font-family: 'BigNoodleTitling';
+    border: 4pt solid #00FF00;
+    font-size: 30pt;
+    padding: 5pt;
+    margin: 0pt auto;
+    text-align: center;
+    width: 50%;
+}
+
+.inventory .button a:hover {
+    background-color: #00FF00;
+    border: 4pt solid black;
+    color: black;
+}
+
+.inventory ul {
+    list-style: none;
+    margin: 0pt;
+    padding: 0pt;
+}
+
+
+.thing {
+    border: 4pt solid;
+    margin: 40pt;
+    padding: 10pt;
+}
+
+.thing ul {
+    list-style: none;
+}
+
+.thing h2, .thing h3{
+    margin: 0pt;
+    padding: 0pt;
+    padding-bottom: 4pt;
+}
+
+.thing h2 a {
+    font-family: 'BigNoodleTitling';
+    font-size: 30pt;
+}
+
+.thing h2 a:hover {
+}
+
+.thing h3 {
+    font-family: 'BigNoodleTitling';
+    font-size: 10pt;
+    letter-spacing: 4pt;
+}
+
+.thing_attribs {
+    display: block;
+    margin-bottom: 8pt;
+}
+
+.thing_attribs li {
+    display: inline-block;
+    position:relative;
+    padding: 10pt;
+}
+
+.print_form input {
+    background-color: black;
+    border: 4pt solid #00FF00;
+    color: #00FF00;
+    font-family: 'BigNoodleTitling';
+    letter-spacing: 2pt;
+    padding: 4pt;
+}
+
+
+/*
 .thing_form input, .person_form input, .usage_rule_form input {
-  display: block;
-  margin-bottom: 1em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+    display: block;
+    margin-bottom: 1pt;
+    padding-top: 0.5pt;
+    padding-bottom: 0.5pt;
 }
 
-ul.inventory {
-  list-style: none;
-  padding: 0em;
-  margin: 0em;
+/* unused
+.inventory hr {
+    border: 0pt;
+    border-top: 4pt dashed #00FF00;
+    background-color: black;;
+    height: 0pt;
+    margin-top: 30pt;
 }
-
-ul.thing_attribs {
-  list-style: none;
-}
-
-ul.thing_attribs li {
-/*  flex-grow: 1;*/
-}
-
-li.thing {
-  background-color: #aaffdd;
-  /*display: flex;*/
-  margin: 1em;
-  background-color: #efefef;
-}
+*/
