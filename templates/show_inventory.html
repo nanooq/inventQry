@@ -1,12 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
-<ul class="inventory">
+<div class="inventory">
+  <div class="button">
+    <a href="{{ url_for('add_thing') }}">
+      add thing
+    </a>
+  </div>
+  <ul>
   {% for thing in inventory %}
   <li class="thing">
-    <a href="{{ thing.url }}">
-        <h2>{{ thing.name }}</h2>
-        <h3>{{ thing.uid }}</h3>
-    </a>
+    <h2>
+      <a href="{{ thing.url }}">
+        {{ thing.name }}
+      </a>
+    </h2>
+    <h3>
+      <a href="{{ thing.url }}">
+        {{ thing.uid }}
+      </a>
+    </h3>
     <ul class="thing_attribs">
       <li class="owner">
         <h4>
@@ -26,7 +38,7 @@
       </li>
       <li class="rule">
         <h4>
-          Who can use this?
+            Permissions:
         </h4>
         <a href="modify_usage_rule?id={{ thing.usage_rule.id }}">
           {{ thing.usage_rule.rule }}
@@ -43,5 +55,6 @@
     <em>Unbelievable.  No entries here so far</em>
   </li>
   {% endfor %}
-</ul>
+  </ul>
+</div>
 {% endblock %}
