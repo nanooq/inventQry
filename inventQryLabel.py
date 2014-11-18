@@ -66,14 +66,13 @@ class InventQryLabel(object):
         #im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
 
         # output needs to be W < H, so rotate
-        #final = im.rotate(90)
-        final = im
+        final = im.rotate(90)
 
         return final
 
     def print(self, image):
         image.save("out.pbm")
-        #call([ "bash", "print" ])
+        call([ "bash", "print" ])
 
 if __name__ == "__main__":
     inventQryLabel = InventQryLabel((514, 196))
