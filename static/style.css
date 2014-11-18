@@ -1,5 +1,6 @@
 @import url("OpenSans.css");
 @import url("BigNoodle.css");
+@import url("asap.css");
 
 html, body, h1, h2, h3, a {
     background-color: black;
@@ -59,6 +60,13 @@ html, body, h1, h2, h3, a {
 }
 
 .inventory {
+    background: repeating-linear-gradient(
+        -45deg,
+        #0f0,
+        #0f0 4pt,
+        #000 4pt,
+        #000 20pt
+    );
     padding: 0pt;
     margin: 0pt;
     padding-top: 30pt;
@@ -84,21 +92,24 @@ html, body, h1, h2, h3, a {
 
 .inventory .button a:hover {
     background-color: #00FF00;
-    border: 4pt solid black;
     color: black;
 }
 
-.inventory ul {
+.inventory article {
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
-    margin: 0pt;
+    margin: 30pt;
     padding: 0pt;
 }
 
 
 .thing {
+    background-color: black;
+    flex: 1 0 33%;
     border: 4pt solid;
-    margin: 40pt;
-    padding: 10pt;
+    margin: 30pt;
+    padding: 20pt;
 }
 
 .thing ul {
@@ -117,34 +128,68 @@ html, body, h1, h2, h3, a {
 }
 
 .thing h2 a:hover {
+    text-decoration: underline overline;
 }
 
 .thing h3 {
     font-family: 'BigNoodleTitling';
     font-size: 10pt;
-    letter-spacing: 4pt;
+    letter-spacing: 2pt;
+}
+
+.thing h3 a {
+}
+
+.thing h3 a:hover {
 }
 
 .thing_attribs {
-    display: block;
-    margin-bottom: 8pt;
+    margin: 0pt;
+    padding: 0pt;
+}
+
+.thing_attribs p {
+    font-family: 'asap';
+    font-size: 17pt;
+    padding: 0pt;
+    padding-bottom: 2pt;
+    margin: 0pt;
+}
+
+.thing_attribs a {
+    font-family: 'asap';
+    margin-left: 5pt;
 }
 
 .thing_attribs li {
-    display: inline-block;
     position:relative;
-    padding: 10pt;
+    margin: 0pt;
+    padding: 0pt;
+}
+
+.print {
+    margin: 10pt;
+    margin-right: -24pt;
+    margin-bottom: -24pt;
+    text-align: right;
+}
+
+.print_form {
 }
 
 .print_form input {
-    background-color: black;
+    background-color: #00FF00;
     border: 4pt solid #00FF00;
-    color: #00FF00;
+    color: black;
     font-family: 'BigNoodleTitling';
+    font-size: 15pt;
     letter-spacing: 2pt;
+    font-weight: bold;
     padding: 4pt;
 }
 
+.print_form input:hover {
+}
 
 /*
 .thing_form input, .person_form input, .usage_rule_form input {
@@ -163,3 +208,7 @@ html, body, h1, h2, h3, a {
     margin-top: 30pt;
 }
 */
+
+.btn-stripe {
+
+}
