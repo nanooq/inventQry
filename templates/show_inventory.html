@@ -6,55 +6,69 @@
       add thing
     </a>
   </div>
-  <ul>
-  {% for thing in inventory %}
-  <li class="thing">
-    <h2>
-      <a href="{{ thing.url }}">
-        {{ thing.name }}
-      </a>
-    </h2>
-    <h3>
-      <a href="{{ thing.url }}">
-        {{ thing.uid }}
-      </a>
-    </h3>
-    <ul class="thing_attribs">
-      <li class="owner">
-        <h4>
-          Owner:
-        </h4>
-        <a href="modify_person?id={{ thing.owner.id }}">
-          {{ thing.owner.pseudonym }}
-         </a>
-      </li>
-      <li class="contact">
-        <h4>
-          Contact:
-        </h4>
-        <a href="modify_person?id={{ thing.contact.id }}">
-          {{ thing.contact.email}}
+  <article>
+    {% for thing in inventory %}
+    <section class="thing">
+      <h2>
+        <a href="{{ thing.url }}">
+          {{ thing.name }}
         </a>
-      </li>
-      <li class="rule">
-        <h4>
-            Permissions:
-        </h4>
-        <a href="modify_usage_rule?id={{ thing.usage_rule.id }}">
-          {{ thing.usage_rule.rule }}
+      </h2>
+      <h3>
+        <a href="{{ thing.url }}">
+          {{ thing.uid }}
         </a>
-      </li>
-    </ul>
-    <form method="POST" action="show_inventory" class="print_form">
-      <input name="id" type="hidden" value="{{ thing.id }}">
-      <input type="submit" value="Print label">
-    </form>
-  </li>
-  {% else %}
-  <li>
-    <em>Unbelievable.  No entries here so far</em>
-  </li>
-  {% endfor %}
-  </ul>
+      </h3>
+      <table class="thing_attribs">
+        <tr class="owner">
+          <td>
+            <b>
+              Owner:
+            </b>
+          </td>
+          <td>
+            <a href="modify_person?id={{ thing.owner.id }}">
+              {{ thing.owner.pseudonym }}
+            </a>
+          </td>
+        </tr>
+        <tr class="contact">
+          <td>
+            <b>
+            Contact:
+            </b>
+          </td>
+          <td>
+            <a href="modify_person?id={{ thing.contact.id }}">
+              {{ thing.contact.email}}
+            </a>
+          </td>
+        </tr>
+        <li class="rule">
+          <td>
+            <b>
+              Permissions:
+            </b>
+          </td>
+          <td>
+            <a href="modify_usage_rule?id={{ thing.usage_rule.id }}">
+              {{ thing.usage_rule.rule }}
+            </a>
+          </td>
+        </tr>
+      </table>
+      <div class="print">
+        <form method="POST" action="show_inventory" class="print_form">
+          <input name="id" type="hidden" value="{{ thing.id }}">
+          <input type="submit" value="Print label">
+        </form>
+      </div>
+    </section>
+    {% else %}
+    <section>
+      <em>Unbelievable.  No entries here so far</em>
+    </section>
+    {% endfor %}
+  </article>
 </div>
 {% endblock %}
