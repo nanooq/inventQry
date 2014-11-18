@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'BigNoodleTitling';
+    font-style: normal;
+    src: url("font/big_noodle_titling.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: 'BigNoodleTitling';
+    font-style: oblique;
+    src: url("fonts/big_noodle_titling_oblique.ttf") format('truetype');
+}
