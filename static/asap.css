@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'asap';
+  font-style: normal;
+  src: url('font/asap.regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'asap';
+  font-style: bold;
+  src: url('font/asap.bold.ttf') format('truetype');
+}
