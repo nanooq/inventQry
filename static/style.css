@@ -202,8 +202,11 @@ html, body, h1, h2, h3, a {
 }
 
 .form_input {
-    display: table;
     width: 100%;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -o-flex;
+    display: flex;
     font-family: 'BigNoodleTitling';
     background: #000000;
     color: #00FF00;
@@ -214,18 +217,17 @@ html, body, h1, h2, h3, a {
 }
 
 .form_input label {
-    display: table-cell;
+    flex: 0 0 auto;
     padding-right: 5pt;
 }
 
 .form_input input {
-    display: table-cell;
+    flex: 1;
     background: #000000;
     border: 0pt;
     color: #00FF00;
     font-family: 'BigNoodleTitling';
     font-size: 30pt;
-    width: 100%;
 }
 
 .form_input select {
