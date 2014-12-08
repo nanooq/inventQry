@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
+<div class="inventory thing_container">
 {% if modify %}
   <form method="POST" action="{{ request.path }}?id={{ thing.id }}" class="thing_form">
-    <label for="name">Name</label>
-    <input name="name" type="text" size="40" value="{{ thing.name }}">
+    <div class="form_input">
+      <label for="name">Name</label>
+      <input name="name" type="text" size="40" value="{{ thing.name }}">
+    </div>
     <label for="owner">Owner</label>
     <select name="owner" id="owner">
       {% for person in persons %}
@@ -27,29 +30,42 @@
     <input type="submit" value="Modify thing">
 {% else %}
   <form method="POST" action="{{ request.path }}" class="thing_form">
-    <label for="name">Name</label>
-    <input name="name" type="text" size="40" value="">
-    <label for="owner">Owner</label>
-    <select name="owner" id="owner">
-      {% for person in persons %}
-        <option value="{{ person.id }}">{{ person.pseudonym }}</option>
-      {% endfor %}
-    </select>
-    <label for="contact">Contact</label>
-    <select name="contact" id="contact">
-      {% for person in persons %}
-        <option value="{{ person.id }}">{{ person.pseudonym }}</option>
-      {% endfor %}
-    </select>
-    <label for="owner">Usage rule</label>
-    <select name="usage_rule" id="usage_rule">
-      {% for usage_rule in usage_rules %}
-        <option value="{{ usage_rule.id }}">{{ usage_rule.rule }}</option>
-      {% endfor %}
-    </select>
-    <label for="url">URL</label>
-    <input name="url" type="text" size="40">
-    <input type="submit" value="Add thing">
+    <div class="form_input">
+      <label for="name">Name</label>
+      <input name="name" type="text" size="40" value="">
+    </div>
+    <div class="form_input">
+      <label for="owner">Owner</label>
+      <select name="owner" id="owner">
+        {% for person in persons %}
+          <option value="{{ person.id }}">{{ person.pseudonym }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form_input">
+      <label for="contact">Contact</label>
+      <select name="contact" id="contact">
+        {% for person in persons %}
+          <option value="{{ person.id }}">{{ person.pseudonym }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form_input">
+      <label for="owner">Usage rule</label>
+      <select name="usage_rule" id="usage_rule">
+        {% for usage_rule in usage_rules %}
+          <option value="{{ usage_rule.id }}">{{ usage_rule.rule }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form_input">
+      <label for="url">URL</label>
+      <input name="url" type="text" size="40">
+    </div>
+    <div class="form_button">
+      <input type="submit" value="Add thing" class="form_button">
+    </div>
   </form>
 {% endif %}
+</div>
 {% endblock %}

@@ -191,6 +191,62 @@ html, body, h1, h2, h3, a {
 .print_form input:hover {
 }
 
+.thing_container {
+    text-align: center;
+}
+
+.thing_form, .person_form, .usage_rule_form {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.form_input {
+    display: table;
+    width: 100%;
+    font-family: 'BigNoodleTitling';
+    background: #000000;
+    color: #00FF00;
+    border: 4pt solid #00FF00;
+    font-size: 30pt;
+    padding: 5pt;
+    margin-bottom: 5pt;
+}
+
+.form_input label {
+    display: table-cell;
+    padding-right: 5pt;
+}
+
+.form_input input {
+    display: table-cell;
+    background: #000000;
+    border: 0pt;
+    color: #00FF00;
+    font-family: 'BigNoodleTitling';
+    font-size: 30pt;
+    width: 100%;
+}
+
+.form_input select {
+    display: table-cell;
+    background: #000000;
+    border: 0pt;
+    color: #00FF00;
+    font-family: 'BigNoodleTitling';
+    font-size: 30pt;
+    width: 100%;
+}
+
+.form_button input {
+    background: #00FF00;
+    border: 0pt;
+    color: #000000;
+    font-family: 'BigNoodleTitling';
+    font-size: 30pt;
+    width: 100%;
+}
+
 /*
 .thing_form input, .person_form input, .usage_rule_form input {
     display: block;
