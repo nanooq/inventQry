@@ -195,7 +195,7 @@ def add_thing():
     return render_template("thing.html", modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
 
 @app.route("/modify_thing", methods=["GET", "POST"])
-def thing():
+def modify_thing():
     inventory = db_get_things()
     persons = db_get_persons()
     usage_rules = db_get_usage_rules()

@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 html, body, h1, h2, h3, a {
     background-color: black;
     color: #00FF00;
@@ -63,25 +67,15 @@ html, body, h1, h2, h3, a {
     text-align: center;
 }
 
-.inventory {
-    background: repeating-linear-gradient(
-        -45deg,
-        #0f0,
-        #0f0 4pt,
-        #000 4pt,
-        #000 20pt
-    );
-    padding: 0pt;
-    margin: 0pt;
-    padding-top: 30pt;
-    width: 100%;
+.page {
+    height: 100%;
 }
 
-.inventory .button {
+.inventory_container .button {
     text-align: center;
 }
 
-.inventory .button a {
+.inventory_container .button a {
     background-color: black;
     color: #00FF00;
     display: inline-block;
@@ -94,19 +88,18 @@ html, body, h1, h2, h3, a {
     width: 50%;
 }
 
-.inventory .button a:hover {
+.inventory_container .button a:hover {
     background-color: #00FF00;
     color: black;
 }
 
-.inventory article {
+.inventory_container article {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     margin: 30pt;
     padding: 0pt;
 }
-
 
 .thing {
     background-color: black;
@@ -195,7 +188,23 @@ html, body, h1, h2, h3, a {
 .print_form input:hover {
 }
 
-.thing_container {
+.inventory_container, .thing_container, .person_container, .usage_rule_container {
+    display: block;
+    background: repeating-linear-gradient(
+        -45deg,
+        #0f0,
+        #0f0 4pt,
+        #000 4pt,
+        #000 20pt
+    );
+    padding: 30pt 0 30pt 0;
+    margin: 0;
+    position: relative;
+    /* that's ugly and does not work properly and hmmm.... */
+    min-height: calc(100% - 190pt);
+}
+
+.thing_container, .person_container, .usage_rule_container {
     text-align: center;
 }
 

@@ -1,22 +1,36 @@
 {% extends "layout.html" %}
 {% block body %}
+
+<div class="person_container">
 {% if modify %}
   <form method="POST" action="{{ request.path }}?id={{ person.id }}" class="person_form">
-    <label for="pseudonym">Pseudonym</label>
-    <input name="pseudonym" type="text" size="40" value="{{ person.pseudonym }}">
-    <label for="email">E-Mail</label>
-    <input name="email" type="text" size="40" value="{{ person.email }}">
+    <div class="form_input">
+      <label for="pseudonym">Pseudonym</label>
+      <input name="pseudonym" type="text" size="40" value="{{ person.pseudonym }}">
+    </div>
+    <div class="form_input">
+      <label for="email">E-Mail</label>
+      <input name="email" type="text" size="40" value="{{ person.email }}">
+    </div>
     <input name="id" type="hidden" value="{{ person.id }}">
-    <input type="submit" value="Modify person">
+    <div class="form_button">
+      <input type="submit" value="Modify person">
+    </div>
   </form>
 {% else %}
   <form method="POST" action="{{ request.path }}" class="person_form">
-    <label for="pseudonym">Pseudonym</label>
-    <input name="pseudonym" type="text" size="40">
-    <label for="email">E-Mail</label>
-    <input name="email" type="text" size="40">
+    <div class="form_input">
+      <label for="pseudonym">Pseudonym</label>
+      <input name="pseudonym" type="text" size="40">
+    </div>
+    <div class="form_input">
+      <label for="email">E-Mail</label>
+      <input name="email" type="text" size="40">
+    </div>
     <input name="id" type="hidden" value="new_id">
-    <input type="submit" value="Add person">
+    <div class="form_button">
+      <input type="submit" value="Add person">
+    </div>
   </form>
 {% endif %}
 {% if request.method == "POST" %}
@@ -26,4 +40,6 @@
     <p class="message">Person has been added.</p>
   {% endif %}
 {% endif %}
+</div>
+
 {% endblock %}
