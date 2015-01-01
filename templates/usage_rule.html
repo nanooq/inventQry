@@ -6,7 +6,7 @@
   <form method="POST" action="{{ request.path }}?id={{ usage_rule.id }}" class="usage_rule_form">
     <div class="form_input">
       <label for="rule">Rule</label>
-      <input name="rule" type="text" size="40" value="{{ usage_rule.rule }}">
+      <input name="rule" type="text" value="{{ usage_rule.rule }}">
     </div>
     <input name="id" type="hidden" value="{{ usage_rule.id }}">
     <div class="form_button">
@@ -17,7 +17,7 @@
   <form method="POST" action="{{ request.path }}" class="usage_rule_form">
     <div class="form_input">
       <label for="rule">Rule</label>
-      <input name="rule" type="text" size="40">
+      <input name="rule" type="text">
     </div>
     <input name="id" type="hidden" value="new_id">
     <div class="form_button">
@@ -26,10 +26,14 @@
   </form>
 {% endif %}
 {% if request.method == "POST" %}
-  {% if modify %}
-    <p class="message">Usage rule has been modified.</p>
+  {% if error %}
+    <p class="message">There was an error.</p>
   {% else %}
-    <p class="message">Usage rule has been added.</p>
+    {% if modify %}
+      <p class="message">Usage rule has been modified.</p>
+    {% else %}
+      <p class="message">Usage rule has been added.</p>
+    {% endif %}
   {% endif %}
 {% endif %}
 </div>

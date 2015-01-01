@@ -6,7 +6,7 @@
   <form method="POST" action="{{ request.path }}?id={{ thing.id }}" class="thing_form">
     <div class="form_input">
       <label for="name">Name</label>
-      <input name="name" type="text" size="40" value="{{ thing.name }}">
+      <input name="name" type="text" value="{{ thing.name }}">
     </div>
     <div class="form_input">
     <label for="owner">Owner</label>
@@ -34,7 +34,7 @@
     </div>
     <div class="form_input">
       <label for="url">URL</label>
-      <input name="url" type="text" size="40" value="{{ thing.url }}">
+      <input name="url" type="text" value="{{ thing.url }}">
     </div>
     <input name="id" type="hidden" value="{{ thing.id }}">
     <div class="form_button">
@@ -44,7 +44,7 @@
   <form method="POST" action="{{ request.path }}" class="thing_form">
     <div class="form_input">
       <label for="name">Name</label>
-      <input name="name" type="text" size="40" value="">
+      <input name="name" type="text" value="">
     </div>
     <div class="form_input">
       <label for="owner">Owner</label>
@@ -72,13 +72,24 @@
     </div>
     <div class="form_input">
       <label for="url">URL</label>
-      <input name="url" type="text" size="40">
+      <input name="url" type="text">
     </div>
     <input name="id" type="hidden" value="new_id">
     <div class="form_button">
       <input type="submit" value="Add thing">
     </div>
   </form>
+{% endif %}
+{% if request.method == "POST" %}
+  {% if error %}
+    <p class="message">There was an error.</p>
+  {% else %}
+    {% if modify %}
+      <p class="message">Thing has been modified.</p>
+    {% else %}
+      <p class="message">Thing has been added.</p>
+    {% endif %}
+  {% endif %}
 {% endif %}
 </div>
 

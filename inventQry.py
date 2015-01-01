@@ -2,7 +2,8 @@
 from flask import *
 import sqlite3
 import uuid
-
+import requests
+import json
 
 from inventQryLabel import *
 
@@ -118,10 +119,15 @@ def db_get_usage_rule_by_id(id):
 # add
 def db_add_thing(name, owner, contact, usage_rule, url):
     uid = str(uuid.uuid4())
+
+    headers = {'content-type': 'application/json'}
+    payload = { "uid": uid, "url": url }
+    requests.post("http://hasi.it/i/", data=json.dumps(payload), headers=headers)
+
     c = storage.write("""INSERT INTO things
                          (name, owner, contact, usage_rule, uid, url)
                          VALUES (?, ?, ?, ?, ?, ?);""",
-                         [name, owner, contact, usage_rule, uid, url])
+                      [name, owner, contact, usage_rule, uid, url])
 
 def db_add_person(pseudonym, email):
     # TODO prevent sql injections
@@ -133,7 +139,13 @@ def db_add_usage_rule(rule):
 
 # modify
 def db_modify_thing(id, name, owner, contact, usage_rule, url):
+    uid = db_get_thing_by_id(id)["uid"]
+
     # TODO prevent sql injections
+    headers = {'content-type': 'application/json'}
+    payload = { "url": url }
+    requests.put("http://hasi.it/i/" + uid, data=json.dumps(payload), headers=headers)
+
     c = storage.read("UPDATE things SET name=?, owner=?, contact=?, usage_rule=?, url=? WHERE id=?;", [name, owner, contact, usage_rule, url, id])
 
 def db_modify_person(id, pseudonym, email):
@@ -185,14 +197,19 @@ def add_thing():
     persons = db_get_persons()
     usage_rules = db_get_usage_rules()
 
-    if request.method == "POST":
-        db_add_thing(request.form["name"],
-                     request.form["owner"],
-                     request.form["contact"],
-                     request.form["usage_rule"],
-                     request.form["url"])
+    oops = False
 
-    return render_template("thing.html", modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
+    if request.method == "POST":
+        try:
+            db_add_thing(request.form["name"],
+                         request.form["owner"],
+                         request.form["contact"],
+                         request.form["usage_rule"],
+                         request.form["url"])
+        except:
+            oops = True
+
+    return render_template("thing.html", error=oops, modify=False, inventory=inventory, persons=persons, usage_rules=usage_rules)
 
 @app.route("/modify_thing", methods=["GET", "POST"])
 def modify_thing():
@@ -200,13 +217,18 @@ def modify_thing():
     persons = db_get_persons()
     usage_rules = db_get_usage_rules()
 
+    oops = False
+
     if request.method == "POST":
-        db_modify_thing(request.form["id"],
-                        request.form["name"],
-                        request.form["owner"],
-                        request.form["contact"],
-                        request.form["usage_rule"],
-                        request.form["url"])
+        try:
+            db_modify_thing(request.form["id"],
+                            request.form["name"],
+                            request.form["owner"],
+                            request.form["contact"],
+                            request.form["usage_rule"],
+                            request.form["url"])
+        except:
+            oops = True
 
     id = request.args.get("id")
 
@@ -218,14 +240,14 @@ def modify_thing():
     if thing == None:
         return render_template("error.html")
 
-    return render_template("thing.html", modify=True, inventory=inventory, persons=persons, usage_rules=usage_rules, thing=thing)
+    return render_template("thing.html", error=oops, modify=True, inventory=inventory, persons=persons, usage_rules=usage_rules, thing=thing)
 
 @app.route("/add_person", methods=["GET", "POST"])
 def add_person():
     if request.method == "POST":
         db_add_person(request.form["pseudonym"], request.form["email"])
 
-    return render_template("person.html", modify=False)
+    return render_template("person.html", error=False, modify=False)
 
 @app.route("/modify_person", methods=["GET", "POST"])
 def modify_person():
@@ -242,14 +264,14 @@ def modify_person():
     if person == None:
         return render_template("error.html")
 
-    return render_template("person.html", modify=True, person=person)
+    return render_template("person.html", error=False, modify=True, person=person)
 
 @app.route("/add_usage_rule", methods=["GET", "POST"])
 def add_usage_rule():
     if request.method == "POST":
         db_add_usage_rule(request.form["rule"])
 
-    return render_template("usage_rule.html", modify=False)
+    return render_template("usage_rule.html", error=False, modify=False)
 
 @app.route("/modify_usage_rule", methods=["GET", "POST"])
 def modify_usage_rule():
@@ -266,7 +288,7 @@ def modify_usage_rule():
     if usage_rule == None:
         return render_template("error.html")
 
-    return render_template("usage_rule.html", modify=True, usage_rule=usage_rule)
+    return render_template("usage_rule.html", error=False, modify=True, usage_rule=usage_rule)
 
 if  __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=80)

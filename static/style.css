@@ -212,6 +212,7 @@ html, body, h1, h2, h3, a {
     display: block;
     margin: 0 auto;
     width: 50%;
+    padding-bottom: 18pt;
 }
 
 .form_input {
@@ -261,6 +262,15 @@ html, body, h1, h2, h3, a {
     font-size: 30pt;
     width: 100%;
 }
+
+.message {
+    font-family: 'asap';
+    background: #000000;
+    border: 1px #00FF00 solid;
+    width: 50%;
+    padding: 3pt;
+    text-align: center;
+    margin: 0 auto;
 
 /*
 .thing_form input, .person_form input, .usage_rule_form input {
