@@ -28,7 +28,7 @@ class InventQryLabel(object):
             version=None,
             error_correction=qrcode.constants.ERROR_CORRECT_Q, # 25% errors correctable
             box_size=10,
-            border=2, # apparently the standard requires 4...
+            border=0, # apparently the standard requires 4...
         )
 
         qr.add_data(base_url)
@@ -51,19 +51,41 @@ class InventQryLabel(object):
             name_txt = self.mktext(name, "./static/font/harry.ttf", 50)
         else:
             name_txt = self.mktext(name, "./static/font/Ubuntu-L.ttf", 43)
-        owner_txt = self.mktext("Owner: {}".format(owner), "./static/font/Ubuntu-L.ttf", 30)
-        contact_txt = self.mktext("Contact: {}".format(contact), "./static/font/Ubuntu-L.ttf", 30)
-        permissions_txt = self.mktext("Permissions: {}".format(usage_rule), "./static/font/Ubuntu-L.ttf", 30)
 
-        #logo = Image.open("./static/img/logo.png").convert("1").resize((self.h//2, self.h//2))
+        size_s = 18
+        size_m = 26
+        owner_label_txt = self.mktext("Owner",
+                                      "./static/font/Ubuntu-L.ttf", size_s)
+        owner_txt = self.mktext("{}".format(owner),
+                                "./static/font/Ubuntu-L.ttf", size_m)
+        contact_label_txt = self.mktext("Contact",
+                                        "./static/font/Ubuntu-L.ttf", size_s)
+        contact_txt = self.mktext("{}".format(contact),
+                                  "./static/font/Ubuntu-L.ttf", size_m)
+        permissions_label_txt = self.mktext("Permissions",
+                                            "./static/font/Ubuntu-L.ttf", size_s)
+        permissions_txt = self.mktext("{}".format(usage_rule),
+                                      "./static/font/Ubuntu-L.ttf", size_m)
 
         # place image parts
+        offset_x = 15
+        offset_y = self.h - 145
+        step_s = 17
+        step_m = 29
+        im.paste(name_txt, (offset_x, 0))
+        posy = offset_y
+        im.paste(owner_label_txt, (offset_x, posy))
+        posy += step_s
+        im.paste(owner_txt, (offset_x, posy))
+        posy += step_m
+        im.paste(contact_label_txt, (offset_x, posy))
+        posy += step_s
+        im.paste(contact_txt, (offset_x, posy))
+        posy += step_m
+        im.paste(permissions_label_txt, (offset_x, posy))
+        posy += step_s
+        im.paste(permissions_txt, (offset_x, posy))
         im.paste(code, (self.w-self.h, 0))
-        im.paste(name_txt, (10, 5))
-        im.paste(owner_txt, (10, self.h - 120))
-        im.paste(contact_txt, (10, self.h - 80))
-        im.paste(permissions_txt, (10, self.h - 40))
-        #im.paste(logo, (self.w - self.h//2 - 15//2, self.h//2))
 
         # output needs to be W < H, so rotate
         final = im.rotate(90)
