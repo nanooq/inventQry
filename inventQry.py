@@ -291,4 +291,4 @@ def modify_usage_rule():
     return render_template("usage_rule.html", error=False, modify=True, usage_rule=usage_rule)
 
 if  __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=80)
+    app.run(host="0.0.0.0", debug=True, port=8002)
