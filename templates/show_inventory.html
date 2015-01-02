@@ -10,7 +10,7 @@
     {% for thing in inventory %}
     <section class="thing">
       <h2>
-        <a href="{{ thing.url }}">
+        <a href="{{ base_url + thing.uid[:8] }}">
           {{ thing.name }}
         </a>
       </h2>

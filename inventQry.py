@@ -121,7 +121,7 @@ def db_add_thing(name, owner, contact, usage_rule, url):
     uid = str(uuid.uuid4())
 
     headers = {'content-type': 'application/json'}
-    payload = { "uid": uid, "url": url }
+    payload = { "uid": uid[:8], "url": url }
     requests.post("http://hasi.it/i/", data=json.dumps(payload), headers=headers)
 
     c = storage.write("""INSERT INTO things
@@ -144,7 +144,7 @@ def db_modify_thing(id, name, owner, contact, usage_rule, url):
     # TODO prevent sql injections
     headers = {'content-type': 'application/json'}
     payload = { "url": url }
-    requests.put("http://hasi.it/i/" + uid, data=json.dumps(payload), headers=headers)
+    requests.put("http://hasi.it/i/" + uid[:8], data=json.dumps(payload), headers=headers)
 
     c = storage.read("UPDATE things SET name=?, owner=?, contact=?, usage_rule=?, url=? WHERE id=?;", [name, owner, contact, usage_rule, url, id])
 
@@ -183,13 +183,13 @@ def show_inventory():
         owner = db_get_person_by_id(thing["owner"])["pseudonym"]
         contact = db_get_person_by_id(thing["contact"])["email"]
         usage_rule = db_get_usage_rule_by_id(thing["usage_rule"])["rule"]
-        uid = thing["uid"][:6]
+        uid = thing["uid"][:8]
 
         inventQryLabel = InventQryLabel((514, 196))
         label = inventQryLabel.generate(name, owner, contact, usage_rule, uid)
         inventQryLabel.print(label)
 
-    return render_template("show_inventory.html", inventory=inventory)
+    return render_template("show_inventory.html", base_url="http://hasi.it/i/", inventory=inventory)
 
 @app.route("/add_thing", methods=["GET", "POST"])
 def add_thing():
