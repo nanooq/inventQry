@@ -75,7 +75,7 @@ def db_modify_url(uid, url):
                      WHERE uid=?;""",
                   [url, uid])
 
-@app.route("/i/", methods=["POST"])
+@app.route("/", methods=["POST"])
 def add():
     if request.method == "POST":
         if not request.json or not "uid" in request.json or not "url" in request.json:
@@ -84,8 +84,10 @@ def add():
         db_add_url(request.json["uid"], request.json["url"])
 
         return "Ok.", 201
+    else
+        return render_template('urlfoo_info.html')
 
-@app.route("/i/<uid>", methods=["PUT", "GET"])
+@app.route("/<uid>", methods=["PUT", "GET"])
 def modify_or_redirect(uid):
     url = db_get_url_by_uid(uid)
 
